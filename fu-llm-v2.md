@@ -15,11 +15,28 @@ The system is designed in a microservices architecture for scalability, modulari
 ### Problem Statement
 Traditionally, users manually upload trade settlement instruction files based on repetitive historical trades with only minor variations like amounts or dates. This manual preparation is error-prone, time-consuming, and non-scalable.
 
+in other word
+Today, users either manually fill complex trade settlement instruction forms or upload trade files that must strictly follow a defined template format.
+Both options — form-based data entry and file preparation — are time-consuming, repetitive, and error-prone, especially when creating new trades that are only slight variations of past trades (e.g., new settlement amount, updated date).
+Users face two major challenges:
+High effort: Too much manual work to fill all form fields or create large files from scratch.
+Consistency risk: Manual creation leads to formatting mistakes and data inconsistencies, causing settlement delays.
+
+
 ### Solution
 Using Generative AI and microservices, this platform enables:
 - Smart prediction and generation of new trade files by learning from historical uploaded trades.
 - Dynamic input adjustments (e.g., settlement amount, currency, settlement dates) by users.
 - Automated creation of ready-to-upload Excel files using standard templates.
+
+Other way explained
+Allow users to input minimal data (e.g., settlement amount, currency, settlement date) via a simple form.
+
+Predict and auto-generate the complete trade file in the defined Excel template format using past uploaded trade history and AI models.
+
+Let users upload the generated file instantly, reducing manual work and ensuring consistency.
+
+This combines the best of form filling + file upload in an intelligent, AI-assisted way, minimizing user effort while maintaining strict template compliance.
 
 ### Business Benefits
 - **Efficiency Boost**: 80%+ reduction in manual effort and faster file generation.
