@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Trade Generation - AI Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .chat-box {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .chat-input-container {
+            display: flex;
+            align-items: center;
+        }
+        .chat-input {
+            width: 80%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .send-btn {
+            padding: 12px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .send-btn:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 80%;
+        }
+        .user-message {
+            background-color: #f1f1f1;
+            text-align: right;
+            margin-left: auto;
+        }
+        .bot-message {
+            background-color: #4CAF50;
+            color: white;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <h2>Trade File Generation Assistant</h2>
+        <div class="chat-box" id="chatBox">
+            <!-- Chat messages will appear here -->
+        </div>
+
+        <div class="chat-input-container">
+            <input type="text" id="userInput" class="chat-input" placeholder="Type your trade request..." />
+            <button id="sendBtn" class="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to display bot's message
+        function addBotMessage(message) {
+            const chatBox = document.getElementById("chatBox");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", "bot-message");
+            messageDiv.innerText = message;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+        }
+
+        // Function to display user's message
+        function addUserMessage(message) {
+            const chatBox = document.getElementById("chatBox");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", "user-message");
+            messageDiv.innerText = message;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+        }
+
+        // Handle user input
+        document.getElementById("sendBtn").addEventListener("click", function() {
+            const userInput = document.getElementById("userInput").value.trim();
+            if (userInput === "") return;
+
+            addUserMessage(userInput);  // Add user message
+            document.getElementById("userInput").value = "";  // Clear input field
+
+            handleBotResponse(userInput);  // Process the input and show bot's response
+        });
+
+        // Parse user input for multiple trade details
+        function parseUserInput(input) {
+            const trades = [];
+            const regex = /(\d+(\.\d+)?\s?(M|B|K)\s?(USD|EUR|GBP))\s?with\s([A-Za-z\s]+)\sfor\s(\d{1,2}[-/]\w+[-/]\d{4})/gi;
+            let match;
+            while ((match = regex.exec(input)) !== null) {
+                trades.push({
+                    amount: match[1],
+                    counterparty: match[5].trim(),
+                    date: match[6],
+                });
+            }
+            return trades;
+        }
+
+        // Simulate bot's response
+        function handleBotResponse(userInput) {
+            const chatBox = document.getElementById("chatBox");
+            const trades = parseUserInput(userInput);
+
+            // If valid trades are found
+            if (trades.length > 0) {
+                let tradeDetailsMessage = "I found the following trade details:";
+
+                // Generate response for each trade found
+                trades.forEach((trade, index) => {
+                    tradeDetailsMessage += `
+                        \n\nTrade ${index + 1}: 
+                        Amount: ${trade.amount}, 
+                        Counterparty: ${trade.counterparty}, 
+                        Date: ${trade.date}`;
+                });
+
+                addBotMessage(tradeDetailsMessage); // Display parsed trades
+
+                setTimeout(() => {
+                    addBotMessage("Your trade files have been successfully generated. Click below to download.");
+                    addBotMessage("[Download Trade Files]");
+                }, 2000);
+            } else {
+                addBotMessage("Sorry, I couldn't extract the required details. Please provide trade information in the format: 'Create trade for 1.5M USD with ABC Bank, 1.2M USD with EFG Bank for 30-Apr-2025.'");
+            }
+        }
+    </script>
+
+</body>
+</html>
