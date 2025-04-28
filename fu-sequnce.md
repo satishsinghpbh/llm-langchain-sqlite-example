@@ -1,3 +1,27 @@
+Example Input:
+sql
+Copy
+Edit
+Create trade for 1.5M USD with ABC Bank, 1.2M USD with EFG Bank for 30-Apr-2025
+Expected Output:
+yaml
+Copy
+Edit
+I found the following trade details:
+
+Trade 1:
+Amount: 1.5M USD,
+Counterparty: ABC Bank,
+Date: 30-Apr-2025
+
+Trade 2:
+Amount: 1.2M USD,
+Counterparty: EFG Bank,
+Date: 30-Apr-2025
+
+Your trade files have been successfully generated. Click below to download.
+[Download Trade Files]
+
 ```mermaid
 flowchart TD
     A[User Form Input or Minimal Fields] --> B[API Gateway]
